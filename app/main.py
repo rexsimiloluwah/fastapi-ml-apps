@@ -22,7 +22,7 @@ app.mount(
 # Templates
 templates = Jinja2Templates(directory = "templates")
 
-
+# Connect the Jinja templates
 @app.get("/", response_class = HTMLResponse)
 async def index(request : Request):
     return templates.TemplateResponse("index.html", {"request" : request})
@@ -35,12 +35,14 @@ async def index(request : Request):
 async def index(request : Request):
     return templates.TemplateResponse("sentimentanalysis.html", {"request" : request})
 
+# Router for heart disease prediction
 app.include_router(
     HeartDiseaseRouter,
     tags = ["Heart Disease Prediction"],
     prefix = "/heartdiseasemodel"
 )
 
+# Router for sentiment analysis
 app.include_router(
     MovieSentimentRouter,
     tags = ["Movies Review Sentiment Analysis"],
