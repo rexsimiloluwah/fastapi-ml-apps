@@ -13,9 +13,9 @@ RUN apt-get -y update
 # Install dependencies 
 RUN pip3 install -r requirements.txt
 
-# Install dependencies of nltk stopwords and words corpora
+# Install dependencies for nltk stopwords and words corpora
 RUN python3 -m nltk.downloader stopwords
 RUN python3 -m nltk.downloader words
 
-# Run app
+# Run application
 CMD ["python3", "main.py"]
