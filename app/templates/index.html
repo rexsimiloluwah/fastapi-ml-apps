@@ -1,3 +1,10 @@
+<!--
+@author [Similoluwa Okunowo (The Caveman)]
+@email [rexsimiloluwa@gmail.com]
+@create date 2021-01-22 17:03:42
+@modify date 2021-02-07 19:47:40
+@desc [description]
+-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -31,10 +38,17 @@
                 </div>
 
                 <div class = "container__card">
-                    <img  src = "{{ url_for('static', path = '/images/mask.png') }}" alt = "computervision" />
+                    <img  src = "{{ url_for('static', path = '/images/monitor.png') }}" alt = "computervision" />
                     <h3><span>03.</span> Computer Vision API</h3>
                     <p>Deploying a Computer Vision API using FastAPI for multi-class classification.</p>
                     <button class = "btn card__btn">View Project <i class = "fa fa-external-link"></i></button>
+                </div>
+
+                <div class = "container__card">
+                    <img  src = "{{ url_for('static', path = '/images/mask.png') }}" alt = "objectdetection" />
+                    <h3><span>04.</span> Object Detection API</h3>
+                    <p>Object Detection API based on SSD and OpenCV DNN module.</p>
+                    <a href = "/object-detection"><button class = "btn card__btn">View Project <i class = "fa fa-external-link"></i></button></a>
                 </div>
 
             </div>

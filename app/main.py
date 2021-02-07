@@ -9,6 +9,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates 
 from heartdiseaseprediction.api import router as HeartDiseaseRouter
 from moviessentimentanalysis.api import router as MovieSentimentRouter
+from objectdetection.api import router as SSDObjectDetectionRouter
 # Initialize the app
 app = FastAPI()
 
@@ -35,6 +36,10 @@ async def index(request : Request):
 async def index(request : Request):
     return templates.TemplateResponse("sentimentanalysis.html", {"request" : request})
 
+@app.get("/object-detection", response_class = HTMLResponse)
+async def index(request : Request):
+    return templates.TemplateResponse("objectdetection.html", {"request" : request})
+
 # Router for heart disease prediction
 app.include_router(
     HeartDiseaseRouter,
@@ -47,6 +52,13 @@ app.include_router(
     MovieSentimentRouter,
     tags = ["Movies Review Sentiment Analysis"],
     prefix = "/moviesentimentmodel"
+)
+
+# Router for object detection API
+app.include_router(
+    SSDObjectDetectionRouter,
+    tags = ["SSD Object Detection API"],
+    prefix = "/objectdetection"
 )
 
 @app.exception_handler(RequestValidationError)

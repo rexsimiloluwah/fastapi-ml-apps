@@ -50,18 +50,18 @@ html, body{
 .container__row{
     display: flex;
     position: relative;
-    justify-content: space-between;
+    justify-content: space-around;
     flex-flow: wrap;
     width: 100%;
 }
 
 .container__card{
-    width: 30%;
+    width: 23%;
     color: #000000;
     background: #FFF;
     border-radius: var(--border-radius);
     padding: 2rem 1rem;
-    margin: 1rem auto;
+    margin: 1rem 0;
     box-shadow: var(--box-shadow);
     transition: .3s ease-in-out;
 }
@@ -270,4 +270,133 @@ to {left: 0; opacity: 1}
     color: black;
     text-decoration: none;
     cursor: pointer;
+}
+
+/* Object detection section */
+
+i.cloud_upload{
+    animation: bounceUpDown 1s infinite;
+    transition: all 1s ease-in-out;
+}
+
+@keyframes bounceUpDown{
+    0%{
+        transform: translateY(10px);
+        opacity: .8;
+    }
+
+    100%{
+    }
+}
+.upload-btn-wrapper{
+    position: relative;
+    overflow:hidden;
+    display:inline-block;
+    cursor:pointer;
+    font-family: 'Poppins',sans-serif;
+    width: 100%;
+    margin: 20px 0px;
+}
+.upload-file{
+    border: 2px solid limegreen;
+    color:#9b9b9b;
+    background-color: white;
+    width:100%;
+    height:250px;
+    border-radius: 8px;
+    font-size:15px;
+    cursor: pointer;
+}
+.upload-btn-wrapper input[type=file]{
+    width:100%;
+    position: absolute;
+    left:0;
+    right:0;
+    top:0;
+    opacity: 0;
+    cursor: pointer;
+    min-height: 300px;
+}
+.success-1, .success-2{
+    display:none;
+    color: var(--primary-color-bg);
+}
+.success-1 i, .success-2 i{
+    font-size: 18px !important;
+    margin-left:6px;
+    margin-top:4px;
+    color: var(--primary-color-bg);
+    border: 1px solid var(--primary-color-bg);
+    padding: 5px;
+    border-radius: 50%;
+}
+.font-50{
+    font-size:50px;
+}
+.d-block{
+    display:block;
+}
+.btn .upload-file{
+    font-size: 30px;
+}
+.upload-btn{
+    display:block;
+    font-size: 18px;
+    color: var(--primary-color-bg);
+}
+
+.upload-btn i{
+    font-size: 100px;
+}
+
+.result-row{
+    display: none;
+    justify-content: space-between;
+    flex-direction: row;
+    flex-flow: wrap;
+    margin: 20px auto;
+    width: 70%;
+}
+
+.result-row > div{
+    width: 48%;
+}
+
+.box img{
+    border-radius: 20px;
+    height: 350px;
+    width: 100%;
+}
+
+.predictions{
+    background: #FFF;
+    border-left: 5px solid limegreen;
+    padding: 3rem;
+    color: #141415;
+}
+
+.predictions ul{
+    margin: 1rem auto;
+}
+
+.predictions ul li{
+    padding: 1rem auto;
+    font-size: 30px;
+}
+
+.text--green{
+    color: limegreen;
+    font-weight: bold;
+}
+
+@media (max-width : 1024px){
+    .container__card{
+        width: 48%;
+    }
+}
+
+@media (max-width : 768px){
+    .container__card{
+        width: 100%;
+    }
 }

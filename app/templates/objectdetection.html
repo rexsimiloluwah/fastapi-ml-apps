@@ -1,0 +1,146 @@
+<!--
+@author [Similoluwa Okunowo (The Caveman)]
+@email [rexsimiloluwa@gmail.com]
+@create date 2021-01-22 17:03:54
+@modify date 2021-02-07 22:35:40
+@desc [description]
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', path = '/styles.css') }}">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <title>Object Detection API</title>
+</head>
+<body>
+    <section class="main">
+        <div class="container">
+            <h1>FastAPI Object Detection API</h1>
+            <p>This API can detect objects from images (with over 20 classes), APIs are also available for seamless integration.</p>
+            <div class="upload-btn-wrapper">
+                <button class="btn upload-file font-weight-500">
+                    <span class="upload-btn">
+                        <i class="material-icons d-block font-50 pb-2 cloud_upload">cloud_upload</i>
+                        <p id="choose-text-1">Click HERE to Upload Image</p>
+                    </span>
+                    <span class="upload-select-button" id="blankFile-1">
+                        *Supports .png, .jpg, .jpeg, .jfif
+                    </span>
+                    <span class="success-1">
+                        <i class="material-icons text-success">check</i>
+                    </span>
+                </button>
+                <input type="file" name="uploadImage" id="uploadImage" accept="image/jpeg, image/jpg, image/png">
+            </div>
+        </div>
+    </section>
+
+    <div class="loader" style="margin: auto"></div>
+
+    <div class="result-row">
+            <div class="box" id="box">
+                <img src="" alt="" id="uploadedImage">
+            </div>
+    
+            <div class="predictions">
+                <h3>There are <span id="objects-count"></span> object classes present in this image :- </h3>
+
+                <h4 id="error"></h4>
+                
+                <ul id="object-classes">
+                </ul>
+
+                <p>View output image <a href="" target="blank" id="output-image-url"><span class="text--green">HERE</span></a></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let fileUpload = document.getElementById("uploadImage");
+        let img = document.getElementById("uploadedImage");
+        const resultContainer = document.querySelector(".result-row");
+        const loader = document.querySelector(".loader");
+        const objectsCount = document.getElementById("objects-count");
+        const outputImage = document.getElementById("output-image-url");
+        const objectClasses = document.getElementById("object-classes");
+        
+        fileUpload.addEventListener('change', function(e){
+
+            resultContainer.style.display = "none";
+
+            objectClasses.innerHTML = ""
+            
+            let uploadedImage = e.target.value
+            loader.style.display = "block";
+            if (uploadedImage){
+                document.getElementById("blankFile-1").innerHTML = uploadedImage.replace("C:\\fakepath\\","")
+                document.getElementById("choose-text-1").innerText = "Change Selected Image"
+                document.querySelector(".success-1").style.display = "inline-block"
+
+                let extension = uploadedImage.split(".")[1]
+                if (!(["doc","docx","pdf"].includes(extension))){
+                    document.querySelector(".success-1 i").style.border = "1px solid limegreen"
+                    document.querySelector(".success-1 i").style.color = "limegreen"
+                }else{
+                    document.querySelector(".success-1 i").style.border = "1px solid rgb(25,110,180)"
+                    document.querySelector(".success-1 i").style.color = "rgb(25,110,180)"
+                }
+            }
+            let file = this.files[0]
+
+            const formdata = new FormData();
+            formdata.append("file", this.files[0])
+
+            for(pair of formdata.entries()){
+                console.log(pair[0], pair[1])
+            }
+            
+            let xhr = new XMLHttpRequest();
+            xhr.open("POST", "/objectdetection/predict?save_image=true", true);
+            // Set the request header
+            // xhr.setRequestHeader("Content-Type", "multipart/form-data");
+            xhr.onreadystatechange = function() { 
+                if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                    console.log("Done")
+                }
+            }
+            xhr.onload = function () {
+                loader.style.display="none"
+                if (file){
+                    resultContainer.style.display= "flex"
+                    const reader = new FileReader();
+                    reader.readAsDataURL(file);
+                    reader.addEventListener("load", function(){
+                        img.style.display = "block"
+                        img.setAttribute('src', this.result);
+                    });
+                }
+
+                else{
+                    img.setAttribute("src", "");
+                }
+                
+                const response = JSON.parse(this.responseText);
+                if(response.status){
+                    objectsCount.innerText = response.data.predictions.length > 0 ? response.data.predictions.length : "NO";
+                    outputImage.setAttribute("href", response.data.output_image_url);
+
+                    response.data.predictions.forEach(prediction => {
+                        let li = document.createElement("li")
+                        li.innerHTML = `${prediction.class} <span class="text--green">(${Math.round(prediction.confidence*100, 2)}%)</span>`
+                        objectClasses.appendChild(li)
+                    })
+                }
+                else{
+                    alert(response.detail.error)
+                    resultContainer.style.display="none"
+                }
+            };
+            
+            xhr.send(formdata);
+        })
+    </script>
+</body>
+</html>
