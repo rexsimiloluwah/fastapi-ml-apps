@@ -44,7 +44,7 @@ $ docker pull similoluwaokunowo/fastapi-ml-apps
 
 *Computer vision app is not live yet due to slug size issues with tensorflow and keras 
 
-> All APIs are available on http://localhost:5000/docs locally or fastapi-ml-apps.herokuapp.com/docs
+> All APIs are available on http://localhost:5000/docs locally or https://fastapi-ml-apps.herokuapp.com/docs
 
 i.e. For the Object detection API:- 
 
