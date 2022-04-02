@@ -126,7 +126,6 @@
                 if(response.status){
                     objectsCount.innerText = response.data.predictions.length > 0 ? response.data.predictions.length : "NO";
                     outputImage.setAttribute("href", response.data.output_image_url);
-
                     response.data.predictions.forEach(prediction => {
                         let li = document.createElement("li")
                         li.innerHTML = `${prediction.class} <span class="text--green">(${Math.round(prediction.confidence*100, 2)}%)</span>`
