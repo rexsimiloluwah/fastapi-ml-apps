@@ -1,0 +1,19 @@
+import torch 
+from torch import nn 
+
+# A simple feedforward neural network
+class ChatbotNet(nn.Module):
+    def __init__(self, input_size:int, hidden_size:int, num_classes:int):
+        super(ChatbotNet, self).__init__()
+        self.l1 = nn.Linear(input_size, hidden_size)
+        self.l2 = nn.Linear(hidden_size, hidden_size)
+        self.l3 = nn.Linear(hidden_size, num_classes)
+        self.relu = nn.ReLU()
+    
+    def forward(self, x):
+        out = self.l1(x)
+        out = self.relu(out)
+        out = self.l2(out)
+        out = self.relu(out)
+        out = self.l3(out)
+        return out

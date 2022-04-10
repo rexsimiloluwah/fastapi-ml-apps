@@ -10,6 +10,7 @@ from fastapi.templating import Jinja2Templates
 from heartdiseaseprediction.api import router as HeartDiseaseRouter
 from moviessentimentanalysis.api import router as MovieSentimentRouter
 from objectdetection.api import router as SSDObjectDetectionRouter
+from chatbot.api import router as ChatbotRouter 
 
 # Initialize the app
 app = FastAPI()
@@ -44,6 +45,9 @@ async def index(request: Request):
 async def index(request: Request):
     return templates.TemplateResponse("objectdetection.html", {"request": request})
 
+@app.get("/chatbot", response_class=HTMLResponse)
+async def index(request:Request):
+    return templates.TemplateResponse("chatbot.html", {"request":request})
 
 # Router for heart disease prediction
 app.include_router(
@@ -64,6 +68,12 @@ app.include_router(
     prefix="/objectdetection",
 )
 
+# Router for the chatbot API 
+app.include_router(
+    ChatbotRouter, 
+    tags=["Chatbot API"],
+    prefix="/chat"
+)
 
 @app.exception_handler(RequestValidationError)
 async def validation_exception_handler(request: Request, exc: RequestValidationError):
@@ -80,4 +90,4 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=5000,reload=True)
+    uvicorn.run("main:app", host="0.0.0.0", port=5000,reload=True)
