@@ -1,0 +1,15 @@
+fastapi 
+uvicorn 
+pydantic 
+python-multipart 
+opencv-python-headless
+scikit-learn 
+numpy 
+pandas
+shortuuid
+cloudinary
+nltk
+pillow
+python-decouple
+jinja2
+gunicorn
